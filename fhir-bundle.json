@@ -1,0 +1,773 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:patient-p001",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "P001",
+        "identifier": [
+          {
+            "system": "http://transitionbridge.ai/patients",
+            "value": "P001"
+          }
+        ],
+        "name": [
+          {
+            "given": ["Maya"],
+            "family": "Chen"
+          }
+        ],
+        "birthDate": "2009-03-15",
+        "gender": "female"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/P001"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:patient-p002",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "P002",
+        "identifier": [
+          {
+            "system": "http://transitionbridge.ai/patients",
+            "value": "P002"
+          }
+        ],
+        "name": [
+          {
+            "given": ["Marcus"],
+            "family": "Johnson"
+          }
+        ],
+        "birthDate": "2010-07-22",
+        "gender": "male"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/P002"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:patient-p003",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "P003",
+        "identifier": [
+          {
+            "system": "http://transitionbridge.ai/patients",
+            "value": "P003"
+          }
+        ],
+        "name": [
+          {
+            "given": ["Sophia"],
+            "family": "Martinez"
+          }
+        ],
+        "birthDate": "2008-01-10",
+        "gender": "female"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Patient/P003"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:condition-p001-diabetes",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "C001",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "46635009",
+              "display": "Type 1 diabetes mellitus"
+            }
+          ],
+          "text": "Type 1 Diabetes Mellitus"
+        },
+        "subject": {
+          "reference": "Patient/P001",
+          "display": "Maya Chen"
+        },
+        "onsetDateTime": "2017-06-01"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/C001"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:condition-p002-tof",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "C002",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "86299006",
+              "display": "Tetralogy of Fallot"
+            }
+          ],
+          "text": "Tetralogy of Fallot (repaired)"
+        },
+        "subject": {
+          "reference": "Patient/P002",
+          "display": "Marcus Johnson"
+        },
+        "onsetDateTime": "2010-07-22",
+        "note": [
+          {
+            "text": "Surgical repair completed at age 6 months"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/C002"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:condition-p003-cf",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "C003",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "confirmed"
+            }
+          ]
+        },
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "190905008",
+              "display": "Cystic fibrosis"
+            }
+          ],
+          "text": "Cystic Fibrosis"
+        },
+        "subject": {
+          "reference": "Patient/P003",
+          "display": "Sophia Martinez"
+        },
+        "onsetDateTime": "2008-03-15"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Condition/C003"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:immunization-p001-tdap",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "I001",
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/cvx",
+              "code": "115",
+              "display": "Tdap"
+            }
+          ],
+          "text": "Tdap"
+        },
+        "patient": {
+          "reference": "Patient/P001",
+          "display": "Maya Chen"
+        },
+        "occurrenceDateTime": "2020-03-15"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Immunization/I001"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:immunization-p001-hpv",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "I002",
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/cvx",
+              "code": "165",
+              "display": "HPV9"
+            }
+          ],
+          "text": "HPV"
+        },
+        "patient": {
+          "reference": "Patient/P001",
+          "display": "Maya Chen"
+        },
+        "occurrenceDateTime": "2021-03-15"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Immunization/I002"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:immunization-p002-flu",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "I003",
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/cvx",
+              "code": "141",
+              "display": "Influenza"
+            }
+          ],
+          "text": "Flu"
+        },
+        "patient": {
+          "reference": "Patient/P002",
+          "display": "Marcus Johnson"
+        },
+        "occurrenceDateTime": "2025-10-01"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Immunization/I003"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:immunization-p003-pneumo",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "I004",
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/cvx",
+              "code": "133",
+              "display": "Pneumococcal conjugate PCV 13"
+            }
+          ],
+          "text": "Pneumococcal"
+        },
+        "patient": {
+          "reference": "Patient/P003",
+          "display": "Sophia Martinez"
+        },
+        "occurrenceDateTime": "2024-01-10"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Immunization/I004"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:immunization-p003-flu",
+      "resource": {
+        "resourceType": "Immunization",
+        "id": "I005",
+        "status": "completed",
+        "vaccineCode": {
+          "coding": [
+            {
+              "system": "http://hl7.org/fhir/sid/cvx",
+              "code": "141",
+              "display": "Influenza"
+            }
+          ],
+          "text": "Flu"
+        },
+        "patient": {
+          "reference": "Patient/P003",
+          "display": "Sophia Martinez"
+        },
+        "occurrenceDateTime": "2025-10-15"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Immunization/I005"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:observation-p001-readiness",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "OBS001",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://transitionbridge.ai/assessments",
+              "code": "TRAQ",
+              "display": "Transition Readiness Assessment Questionnaire"
+            }
+          ],
+          "text": "Transition Readiness Assessment"
+        },
+        "subject": {
+          "reference": "Patient/P001",
+          "display": "Maya Chen"
+        },
+        "effectiveDateTime": "2026-04-01",
+        "valueQuantity": {
+          "value": 0.65,
+          "unit": "score",
+          "system": "http://unitsofmeasure.org",
+          "code": "{score}"
+        },
+        "component": [
+          {
+            "code": { "text": "managing-medications" },
+            "valueQuantity": { "value": 0.7, "unit": "score" }
+          },
+          {
+            "code": { "text": "appointment-keeping" },
+            "valueQuantity": { "value": 0.6, "unit": "score" }
+          },
+          {
+            "code": { "text": "tracking-health-issues" },
+            "valueQuantity": { "value": 0.65, "unit": "score" }
+          },
+          {
+            "code": { "text": "talking-with-providers" },
+            "valueQuantity": { "value": 0.55, "unit": "score" }
+          },
+          {
+            "code": { "text": "managing-daily-activities" },
+            "valueQuantity": { "value": 0.75, "unit": "score" }
+          }
+        ],
+        "note": [
+          {
+            "text": "Gaps: talking-with-providers, appointment-keeping. Recommendations: Practice scheduling own appointments, Role-play conversations with providers"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/OBS001"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:observation-p002-readiness",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "OBS002",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://transitionbridge.ai/assessments",
+              "code": "TRAQ",
+              "display": "Transition Readiness Assessment Questionnaire"
+            }
+          ],
+          "text": "Transition Readiness Assessment"
+        },
+        "subject": {
+          "reference": "Patient/P002",
+          "display": "Marcus Johnson"
+        },
+        "effectiveDateTime": "2026-04-01",
+        "valueQuantity": {
+          "value": 0.45,
+          "unit": "score",
+          "system": "http://unitsofmeasure.org",
+          "code": "{score}"
+        },
+        "component": [
+          {
+            "code": { "text": "managing-medications" },
+            "valueQuantity": { "value": 0.4, "unit": "score" }
+          },
+          {
+            "code": { "text": "appointment-keeping" },
+            "valueQuantity": { "value": 0.5, "unit": "score" }
+          },
+          {
+            "code": { "text": "tracking-health-issues" },
+            "valueQuantity": { "value": 0.45, "unit": "score" }
+          },
+          {
+            "code": { "text": "talking-with-providers" },
+            "valueQuantity": { "value": 0.4, "unit": "score" }
+          },
+          {
+            "code": { "text": "managing-daily-activities" },
+            "valueQuantity": { "value": 0.5, "unit": "score" }
+          }
+        ],
+        "note": [
+          {
+            "text": "Gaps: managing-medications, talking-with-providers, tracking-health-issues. Recommendations: Begin medication self-management training, Create health tracking routine, Start transition planning early"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/OBS002"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:observation-p003-readiness",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "OBS003",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://transitionbridge.ai/assessments",
+              "code": "TRAQ",
+              "display": "Transition Readiness Assessment Questionnaire"
+            }
+          ],
+          "text": "Transition Readiness Assessment"
+        },
+        "subject": {
+          "reference": "Patient/P003",
+          "display": "Sophia Martinez"
+        },
+        "effectiveDateTime": "2026-04-01",
+        "valueQuantity": {
+          "value": 0.78,
+          "unit": "score",
+          "system": "http://unitsofmeasure.org",
+          "code": "{score}"
+        },
+        "component": [
+          {
+            "code": { "text": "managing-medications" },
+            "valueQuantity": { "value": 0.85, "unit": "score" }
+          },
+          {
+            "code": { "text": "appointment-keeping" },
+            "valueQuantity": { "value": 0.75, "unit": "score" }
+          },
+          {
+            "code": { "text": "tracking-health-issues" },
+            "valueQuantity": { "value": 0.8, "unit": "score" }
+          },
+          {
+            "code": { "text": "talking-with-providers" },
+            "valueQuantity": { "value": 0.7, "unit": "score" }
+          },
+          {
+            "code": { "text": "managing-daily-activities" },
+            "valueQuantity": { "value": 0.8, "unit": "score" }
+          }
+        ],
+        "note": [
+          {
+            "text": "Gaps: talking-with-providers. Recommendations: URGENT: Patient has aged out - expedite transition, Connect with adult CF center immediately"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/OBS003"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:practitioner-prov001",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "PROV-001",
+        "identifier": [
+          {
+            "system": "http://transitionbridge.ai/providers",
+            "value": "PROV-001"
+          }
+        ],
+        "name": [
+          {
+            "text": "Dr. Sarah Mitchell"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/PROV-001"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:practitionerrole-prov001",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "PR-001",
+        "practitioner": {
+          "reference": "Practitioner/PROV-001",
+          "display": "Dr. Sarah Mitchell"
+        },
+        "specialty": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "394583002",
+                "display": "Endocrinology"
+              }
+            ],
+            "text": "Endocrinology"
+          }
+        ],
+        "location": [
+          {
+            "display": "Boston, MA"
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": ["mon", "tue", "wed", "thu", "fri"],
+            "availableStartTime": "09:00:00",
+            "availableEndTime": "17:00:00"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://transitionbridge.ai/fhir/StructureDefinition/transition-experience",
+            "valueString": "high"
+          },
+          {
+            "url": "http://transitionbridge.ai/fhir/StructureDefinition/accepting-patients",
+            "valueBoolean": true
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "PractitionerRole/PR-001"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:practitioner-prov002",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "PROV-002",
+        "identifier": [
+          {
+            "system": "http://transitionbridge.ai/providers",
+            "value": "PROV-002"
+          }
+        ],
+        "name": [
+          {
+            "text": "Dr. James Chen"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/PROV-002"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:practitionerrole-prov002",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "PR-002",
+        "practitioner": {
+          "reference": "Practitioner/PROV-002",
+          "display": "Dr. James Chen"
+        },
+        "specialty": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "394579002",
+                "display": "Cardiology"
+              }
+            ],
+            "text": "Adult Congenital Heart Disease"
+          }
+        ],
+        "location": [
+          {
+            "display": "Chicago, IL"
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": ["mon", "tue", "wed", "thu", "fri"],
+            "availableStartTime": "08:00:00",
+            "availableEndTime": "16:00:00"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://transitionbridge.ai/fhir/StructureDefinition/transition-experience",
+            "valueString": "high"
+          },
+          {
+            "url": "http://transitionbridge.ai/fhir/StructureDefinition/accepting-patients",
+            "valueBoolean": true
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "PractitionerRole/PR-002"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:practitioner-prov003",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "PROV-003",
+        "identifier": [
+          {
+            "system": "http://transitionbridge.ai/providers",
+            "value": "PROV-003"
+          }
+        ],
+        "name": [
+          {
+            "text": "Dr. Amanda Foster"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/PROV-003"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:practitionerrole-prov003",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "PR-003",
+        "practitioner": {
+          "reference": "Practitioner/PROV-003",
+          "display": "Dr. Amanda Foster"
+        },
+        "specialty": [
+          {
+            "coding": [
+              {
+                "system": "http://snomed.info/sct",
+                "code": "418112009",
+                "display": "Pulmonology"
+              }
+            ],
+            "text": "Pulmonology - CF Center"
+          }
+        ],
+        "location": [
+          {
+            "display": "Houston, TX"
+          }
+        ],
+        "availableTime": [
+          {
+            "daysOfWeek": ["mon", "tue", "wed", "thu", "fri"],
+            "availableStartTime": "08:30:00",
+            "availableEndTime": "17:30:00"
+          }
+        ],
+        "extension": [
+          {
+            "url": "http://transitionbridge.ai/fhir/StructureDefinition/transition-experience",
+            "valueString": "high"
+          },
+          {
+            "url": "http://transitionbridge.ai/fhir/StructureDefinition/accepting-patients",
+            "valueBoolean": true
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "PractitionerRole/PR-003"
+      }
+    }
+  ]
+}
