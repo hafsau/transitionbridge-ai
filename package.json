@@ -1,0 +1,41 @@
+{
+  "name": "transitionbridge-ai",
+  "version": "1.0.0",
+  "description": "Pediatric-to-Adult Care Transition Navigator - Multi-Agent Healthcare AI System",
+  "type": "module",
+  "bin": {
+    "transition-assessment": "./build/mcp-servers/transition-assessment.js",
+    "care-gap-analysis": "./build/mcp-servers/care-gap-analysis.js",
+    "provider-matching": "./build/mcp-servers/provider-matching.js",
+    "transition-handoff": "./build/mcp-servers/transition-handoff.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "start:assessment": "node build/mcp-servers/transition-assessment.js",
+    "start:gaps": "node build/mcp-servers/care-gap-analysis.js",
+    "start:providers": "node build/mcp-servers/provider-matching.js",
+    "start:handoff": "node build/mcp-servers/transition-handoff.js",
+    "demo": "node build/orchestrator/transition-orchestrator.js"
+  },
+  "keywords": [
+    "healthcare",
+    "mcp",
+    "fhir",
+    "transition",
+    "pediatric",
+    "a2a"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
+  }
+}
