@@ -4,7 +4,7 @@
     "module": "Node16",
     "moduleResolution": "Node16",
     "outDir": "./build",
-    "rootDir": "./src",
+    "rootDir": "./",
     "strict": false,
     "strictNullChecks": false,
     "noImplicitAny": false,
@@ -16,6 +16,6 @@
     "sourceMap": true,
     "types": ["node"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "api/**/*"],
   "exclude": ["node_modules", "build"]
 }

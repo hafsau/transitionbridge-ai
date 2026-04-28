@@ -13,6 +13,8 @@
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
+    "start": "tsx api/index.ts",
+    "start:server": "node build/api/index.js",
     "start:assessment": "node build/mcp-servers/transition-assessment.js",
     "start:gaps": "node build/mcp-servers/care-gap-analysis.js",
     "start:providers": "node build/mcp-servers/provider-matching.js",
@@ -31,11 +33,15 @@
   "license": "ISC",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
     "@types/node": "^25.6.0",
-    "@vercel/node": "^5.1.8",
+    "tsx": "^4.19.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.5"
   }
