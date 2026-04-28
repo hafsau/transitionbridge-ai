@@ -7,9 +7,6 @@
 
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { z } from 'zod';
 
 const app = express();
 app.use(cors());
@@ -309,22 +306,130 @@ app.get('/', (req: Request, res: Response) => {
   });
 });
 
-// MCP endpoint - following Prompt Opinion template pattern
+// MCP endpoint - direct JSON-RPC handler
 app.post('/mcp', async (req: Request, res: Response) => {
   try {
-    const server = createMcpServer();
-    const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: () => crypto.randomUUID() });
+    const { method, params, id } = req.body;
 
-    await server.connect(transport);
-    await transport.handleRequest(req, res, req.body);
+    // Handle initialize
+    if (method === 'initialize') {
+      return res.json({
+        jsonrpc: "2.0",
+        id,
+        result: {
+          protocolVersion: "2024-11-05",
+          serverInfo: { name: "transitionbridge-ai", version: "1.0.0" },
+          capabilities: {
+            tools: {},
+            experimental: {
+              "ai.promptopinion/fhir-context": {
+                scopes: [
+                  { name: "patient/Patient.rs", required: false },
+                  { name: "patient/Condition.rs", required: false },
+                  { name: "patient/Immunization.rs", required: false }
+                ]
+              }
+            }
+          }
+        }
+      });
+    }
 
-    transport.close();
+    // Handle initialized notification
+    if (method === 'notifications/initialized') {
+      return res.json({ jsonrpc: "2.0", id, result: {} });
+    }
+
+    // Handle tools/list
+    if (method === 'tools/list') {
+      const tools = [
+        { name: "listAvailablePatients", description: "List all available demo patients in the TransitionBridge system", inputSchema: { type: "object", properties: {} } },
+        { name: "assessTransitionReadiness", description: "Assess a patient's readiness for pediatric-to-adult care transition using TRAQ", inputSchema: { type: "object", properties: { patientId: { type: "string", description: "Patient ID (P001, P002, or P003)" } }, required: ["patientId"] } },
+        { name: "getPatientAge", description: "Get a patient's age and transition eligibility status", inputSchema: { type: "object", properties: { patientId: { type: "string", description: "Patient ID" } }, required: ["patientId"] } },
+        { name: "identifyCareGaps", description: "Identify gaps in a patient's care that need to be addressed before transition", inputSchema: { type: "object", properties: { patientId: { type: "string", description: "Patient ID" } }, required: ["patientId"] } },
+        { name: "checkImmunizationStatus", description: "Check a patient's immunization status for adult healthcare transition", inputSchema: { type: "object", properties: { patientId: { type: "string", description: "Patient ID" } }, required: ["patientId"] } },
+        { name: "searchAdultProviders", description: "Search for adult healthcare providers matching specific criteria", inputSchema: { type: "object", properties: { specialty: { type: "string", description: "Medical specialty" }, location: { type: "string", description: "Location preference" } }, required: ["specialty"] } },
+        { name: "mapPediatricToAdultSpecialty", description: "Map a pediatric condition to appropriate adult specialty", inputSchema: { type: "object", properties: { condition: { type: "string", description: "The pediatric condition" } }, required: ["condition"] } },
+        { name: "generateTransitionSummary", description: "Generate a comprehensive transition summary package for a patient", inputSchema: { type: "object", properties: { patientId: { type: "string", description: "Patient ID" } }, required: ["patientId"] } },
+        { name: "scheduleWarmHandoff", description: "Schedule a warm handoff meeting between pediatric and adult care teams", inputSchema: { type: "object", properties: { patientId: { type: "string", description: "Patient ID" }, adultProviderId: { type: "string", description: "Adult provider ID" } }, required: ["patientId", "adultProviderId"] } }
+      ];
+      return res.json({ jsonrpc: "2.0", id, result: { tools } });
+    }
+
+    // Handle tools/call
+    if (method === 'tools/call') {
+      const { name, arguments: args } = params;
+      let result: any;
+
+      switch (name) {
+        case 'listAvailablePatients':
+          result = Object.entries(PATIENTS).map(([pid, data]) => ({
+            id: pid, name: `${data.patient.name[0].given[0]} ${data.patient.name[0].family}`,
+            age: calculateAge(data.patient.birthDate), condition: data.conditions[0].code.text
+          }));
+          break;
+        case 'assessTransitionReadiness': {
+          const p = PATIENTS[args.patientId];
+          if (!p) { result = { error: "Patient not found", availablePatients: ["P001", "P002", "P003"] }; }
+          else { const age = calculateAge(p.patient.birthDate); result = { patientId: args.patientId, patientName: `${p.patient.name[0].given[0]} ${p.patient.name[0].family}`, age, eligible: age >= 12 && age <= 26, assessment: p.readinessAssessment }; }
+          break;
+        }
+        case 'getPatientAge': {
+          const p = PATIENTS[args.patientId];
+          if (!p) { result = { error: "Patient not found" }; }
+          else { const age = calculateAge(p.patient.birthDate); result = { patientId: args.patientId, age, transitionEligible: age >= 12 && age <= 26, yearsUntilAdulthood: age < 18 ? 18 - age : 0, status: age >= 18 ? "AGED OUT - Urgent transition needed" : "Pre-transition planning phase" }; }
+          break;
+        }
+        case 'identifyCareGaps': {
+          const p = PATIENTS[args.patientId];
+          if (!p) { result = { error: "Patient not found" }; }
+          else { result = { patientId: args.patientId, totalGaps: p.careGaps.length, urgentCount: p.careGaps.filter((g: any) => g.urgency === "urgent").length, gaps: p.careGaps }; }
+          break;
+        }
+        case 'checkImmunizationStatus': {
+          const p = PATIENTS[args.patientId];
+          if (!p) { result = { error: "Patient not found" }; }
+          else { const immGaps = p.careGaps.filter((g: any) => g.category === "immunization"); result = { patientId: args.patientId, completedImmunizations: p.immunizations.map((i: any) => i.vaccineCode.text), missingImmunizations: immGaps.map((g: any) => g.description), status: immGaps.length === 0 ? "Complete" : "Gaps identified" }; }
+          break;
+        }
+        case 'searchAdultProviders': {
+          const matches = PROVIDERS.filter(pr => pr.specialty.toLowerCase().includes(args.specialty.toLowerCase()) || args.specialty.toLowerCase().includes(pr.specialty.toLowerCase().split(" ")[0]));
+          result = { searchCriteria: { specialty: args.specialty, location: args.location }, matchCount: matches.length, providers: matches };
+          break;
+        }
+        case 'mapPediatricToAdultSpecialty': {
+          const mappings: Record<string, string> = { "diabetes": "Endocrinology", "type 1 diabetes": "Endocrinology", "heart": "Adult Congenital Heart Disease", "tetralogy": "Adult Congenital Heart Disease", "cystic fibrosis": "Pulmonology - CF Center", "cf": "Pulmonology - CF Center" };
+          let adultSpecialty = "General Internal Medicine";
+          for (const [key, value] of Object.entries(mappings)) { if (args.condition.toLowerCase().includes(key)) { adultSpecialty = value; break; } }
+          result = { pediatricCondition: args.condition, recommendedAdultSpecialty: adultSpecialty, matchingProviders: PROVIDERS.filter(pr => pr.specialty === adultSpecialty) };
+          break;
+        }
+        case 'generateTransitionSummary': {
+          const p = PATIENTS[args.patientId];
+          if (!p) { result = { error: "Patient not found" }; }
+          else { const age = calculateAge(p.patient.birthDate); result = { transitionSummary: { generatedAt: new Date().toISOString(), patient: { id: args.patientId, name: `${p.patient.name[0].given[0]} ${p.patient.name[0].family}`, age, gender: p.patient.gender }, conditions: p.conditions.map((c: any) => c.code.text), readinessScore: p.readinessAssessment.overallScore, careGaps: p.careGaps, recommendations: p.readinessAssessment.recommendations } }; }
+          break;
+        }
+        case 'scheduleWarmHandoff': {
+          const p = PATIENTS[args.patientId];
+          const prov = PROVIDERS.find(pr => pr.providerId === args.adultProviderId);
+          if (!p || !prov) { result = { error: "Patient or provider not found" }; }
+          else { result = { handoff: { status: "scheduled", patientId: args.patientId, patientName: `${p.patient.name[0].given[0]} ${p.patient.name[0].family}`, adultProvider: prov.name, specialty: prov.specialty, scheduledDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], type: "warm_handoff" } }; }
+          break;
+        }
+        default:
+          return res.json({ jsonrpc: "2.0", id, error: { code: -32601, message: `Unknown tool: ${name}` } });
+      }
+
+      return res.json({ jsonrpc: "2.0", id, result: { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] } });
+    }
+
+    // Unknown method
+    return res.json({ jsonrpc: "2.0", id, error: { code: -32601, message: `Unknown method: ${method}` } });
+
   } catch (error: any) {
     console.error('MCP request error:', error);
-    res.status(500).json({
-      jsonrpc: "2.0",
-      error: { code: -32603, message: error.message || "Internal server error" }
-    });
+    res.status(500).json({ jsonrpc: "2.0", error: { code: -32603, message: error.message || "Internal server error" } });
   }
 });
 
