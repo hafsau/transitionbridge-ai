@@ -1,8 +1,6 @@
 /**
  * TransitionBridge AI - MCP Server
- * Following Prompt Opinion's official po-community-mcp template pattern
- *
- * Uses Express + StreamableHTTPServerTransport for MCP over HTTP
+ * Pediatric-to-Adult Care Transition Navigator
  */
 
 import express, { Request, Response } from 'express';
@@ -52,235 +50,6 @@ function calculateAge(birthDate: string): number {
   return age;
 }
 
-// Create MCP Server with tools
-function createMcpServer(): McpServer {
-  const server = new McpServer({
-    name: "transitionbridge-ai",
-    version: "1.0.0",
-  }, {
-    capabilities: {
-      tools: {},
-      // FHIR context extension for Prompt Opinion
-      experimental: {
-        "ai.promptopinion/fhir-context": {
-          scopes: [
-            { name: "patient/Patient.rs", required: false },
-            { name: "patient/Condition.rs", required: false },
-            { name: "patient/Immunization.rs", required: false }
-          ]
-        }
-      }
-    }
-  });
-
-  // Tool: List available demo patients
-  server.tool(
-    "listAvailablePatients",
-    "List all available demo patients in the TransitionBridge system",
-    {},
-    async () => {
-      const patientList = Object.entries(PATIENTS).map(([id, data]) => ({
-        id,
-        name: `${data.patient.name[0].given[0]} ${data.patient.name[0].family}`,
-        age: calculateAge(data.patient.birthDate),
-        condition: data.conditions[0].code.text
-      }));
-      return { content: [{ type: "text" as const, text: JSON.stringify({ description: "TransitionBridge AI Demo Patients", patients: patientList }, null, 2) }] };
-    }
-  );
-
-  // Tool: Assess transition readiness (TRAQ)
-  server.tool(
-    "assessTransitionReadiness",
-    "Assess a patient's readiness for pediatric-to-adult care transition using TRAQ (Transition Readiness Assessment Questionnaire)",
-    { patientId: z.string().describe("Patient ID (P001, P002, or P003)") },
-    async ({ patientId }) => {
-      const patient = PATIENTS[patientId];
-      if (!patient) return { content: [{ type: "text" as const, text: JSON.stringify({ error: "Patient not found", availablePatients: ["P001", "P002", "P003"] }) }] };
-      const age = calculateAge(patient.patient.birthDate);
-      return {
-        content: [{
-          type: "text" as const,
-          text: JSON.stringify({
-            patientId,
-            patientName: `${patient.patient.name[0].given[0]} ${patient.patient.name[0].family}`,
-            age,
-            eligible: age >= 12 && age <= 26,
-            assessment: patient.readinessAssessment
-          }, null, 2)
-        }]
-      };
-    }
-  );
-
-  // Tool: Get patient age and eligibility
-  server.tool(
-    "getPatientAge",
-    "Get a patient's age and transition eligibility status",
-    { patientId: z.string().describe("Patient ID") },
-    async ({ patientId }) => {
-      const patient = PATIENTS[patientId];
-      if (!patient) return { content: [{ type: "text" as const, text: JSON.stringify({ error: "Patient not found" }) }] };
-      const age = calculateAge(patient.patient.birthDate);
-      return {
-        content: [{
-          type: "text" as const,
-          text: JSON.stringify({
-            patientId, age,
-            transitionEligible: age >= 12 && age <= 26,
-            yearsUntilAdulthood: age < 18 ? 18 - age : 0,
-            status: age >= 18 ? "AGED OUT - Urgent transition needed" : "Pre-transition planning phase"
-          }, null, 2)
-        }]
-      };
-    }
-  );
-
-  // Tool: Identify care gaps
-  server.tool(
-    "identifyCareGaps",
-    "Identify gaps in a patient's care that need to be addressed before transition",
-    { patientId: z.string().describe("Patient ID") },
-    async ({ patientId }) => {
-      const patient = PATIENTS[patientId];
-      if (!patient) return { content: [{ type: "text" as const, text: JSON.stringify({ error: "Patient not found" }) }] };
-      const urgentGaps = patient.careGaps.filter((g: any) => g.urgency === "urgent");
-      return {
-        content: [{
-          type: "text" as const,
-          text: JSON.stringify({ patientId, totalGaps: patient.careGaps.length, urgentCount: urgentGaps.length, gaps: patient.careGaps }, null, 2)
-        }]
-      };
-    }
-  );
-
-  // Tool: Check immunization status
-  server.tool(
-    "checkImmunizationStatus",
-    "Check a patient's immunization status for adult healthcare transition",
-    { patientId: z.string().describe("Patient ID") },
-    async ({ patientId }) => {
-      const patient = PATIENTS[patientId];
-      if (!patient) return { content: [{ type: "text" as const, text: JSON.stringify({ error: "Patient not found" }) }] };
-      const immunizationGaps = patient.careGaps.filter((g: any) => g.category === "immunization");
-      return {
-        content: [{
-          type: "text" as const,
-          text: JSON.stringify({
-            patientId,
-            completedImmunizations: patient.immunizations.map((i: any) => i.vaccineCode.text),
-            missingImmunizations: immunizationGaps.map((g: any) => g.description),
-            status: immunizationGaps.length === 0 ? "Complete" : "Gaps identified"
-          }, null, 2)
-        }]
-      };
-    }
-  );
-
-  // Tool: Search adult providers
-  server.tool(
-    "searchAdultProviders",
-    "Search for adult healthcare providers matching specific criteria",
-    { specialty: z.string().describe("Medical specialty to search for"), location: z.string().optional().describe("Location preference") },
-    async ({ specialty, location }) => {
-      const matches = PROVIDERS.filter(p =>
-        p.specialty.toLowerCase().includes(specialty.toLowerCase()) ||
-        specialty.toLowerCase().includes(p.specialty.toLowerCase().split(" ")[0])
-      );
-      return { content: [{ type: "text" as const, text: JSON.stringify({ searchCriteria: { specialty, location }, matchCount: matches.length, providers: matches }, null, 2) }] };
-    }
-  );
-
-  // Tool: Map pediatric condition to adult specialty
-  server.tool(
-    "mapPediatricToAdultSpecialty",
-    "Map a pediatric condition to appropriate adult specialty",
-    { condition: z.string().describe("The pediatric condition") },
-    async ({ condition }) => {
-      const mappings: Record<string, string> = {
-        "diabetes": "Endocrinology", "type 1 diabetes": "Endocrinology",
-        "heart": "Adult Congenital Heart Disease", "tetralogy": "Adult Congenital Heart Disease", "cardiac": "Adult Congenital Heart Disease",
-        "cystic fibrosis": "Pulmonology - CF Center", "cf": "Pulmonology - CF Center", "pulmonary": "Pulmonology"
-      };
-      const conditionLower = condition.toLowerCase();
-      let adultSpecialty = "General Internal Medicine";
-      for (const [key, value] of Object.entries(mappings)) {
-        if (conditionLower.includes(key)) { adultSpecialty = value; break; }
-      }
-      return {
-        content: [{
-          type: "text" as const,
-          text: JSON.stringify({
-            pediatricCondition: condition,
-            recommendedAdultSpecialty: adultSpecialty,
-            matchingProviders: PROVIDERS.filter(p => p.specialty === adultSpecialty)
-          }, null, 2)
-        }]
-      };
-    }
-  );
-
-  // Tool: Generate transition summary
-  server.tool(
-    "generateTransitionSummary",
-    "Generate a comprehensive transition summary package for a patient",
-    { patientId: z.string().describe("Patient ID") },
-    async ({ patientId }) => {
-      const patient = PATIENTS[patientId];
-      if (!patient) return { content: [{ type: "text" as const, text: JSON.stringify({ error: "Patient not found" }) }] };
-      const age = calculateAge(patient.patient.birthDate);
-      return {
-        content: [{
-          type: "text" as const,
-          text: JSON.stringify({
-            transitionSummary: {
-              generatedAt: new Date().toISOString(),
-              patient: { id: patientId, name: `${patient.patient.name[0].given[0]} ${patient.patient.name[0].family}`, age, gender: patient.patient.gender },
-              conditions: patient.conditions.map((c: any) => c.code.text),
-              readinessScore: patient.readinessAssessment.overallScore,
-              careGaps: patient.careGaps,
-              recommendations: patient.readinessAssessment.recommendations,
-              immunizationStatus: patient.immunizations.map((i: any) => i.vaccineCode.text)
-            }
-          }, null, 2)
-        }]
-      };
-    }
-  );
-
-  // Tool: Schedule warm handoff
-  server.tool(
-    "scheduleWarmHandoff",
-    "Schedule a warm handoff meeting between pediatric and adult care teams",
-    { patientId: z.string().describe("Patient ID"), adultProviderId: z.string().describe("Adult provider ID (e.g., PROV-001)") },
-    async ({ patientId, adultProviderId }) => {
-      const patient = PATIENTS[patientId];
-      const provider = PROVIDERS.find(p => p.providerId === adultProviderId);
-      if (!patient || !provider) return { content: [{ type: "text" as const, text: JSON.stringify({ error: "Patient or provider not found" }) }] };
-      const handoffDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
-      return {
-        content: [{
-          type: "text" as const,
-          text: JSON.stringify({
-            handoff: {
-              status: "scheduled",
-              patientId,
-              patientName: `${patient.patient.name[0].given[0]} ${patient.patient.name[0].family}`,
-              adultProvider: provider.name,
-              specialty: provider.specialty,
-              scheduledDate: handoffDate.toISOString().split('T')[0],
-              type: "warm_handoff",
-              notes: "Joint visit with pediatric and adult care teams"
-            }
-          }, null, 2)
-        }]
-      };
-    }
-  );
-
-  return server;
-}
-
 // Health check endpoint
 app.get('/', (req: Request, res: Response) => {
   res.json({
@@ -288,21 +57,8 @@ app.get('/', (req: Request, res: Response) => {
     description: "Pediatric-to-Adult Care Transition Navigator",
     version: "1.0.0",
     status: "running",
-    endpoints: {
-      mcp: "/mcp (POST)",
-      health: "/ (GET)"
-    },
-    tools: [
-      "listAvailablePatients",
-      "assessTransitionReadiness",
-      "getPatientAge",
-      "identifyCareGaps",
-      "checkImmunizationStatus",
-      "searchAdultProviders",
-      "mapPediatricToAdultSpecialty",
-      "generateTransitionSummary",
-      "scheduleWarmHandoff"
-    ]
+    endpoints: { mcp: "/mcp (POST)", health: "/ (GET)" },
+    tools: ["listAvailablePatients", "assessTransitionReadiness", "getPatientAge", "identifyCareGaps", "checkImmunizationStatus", "searchAdultProviders", "mapPediatricToAdultSpecialty", "generateTransitionSummary", "scheduleWarmHandoff"]
   });
 });
 
@@ -436,8 +192,6 @@ app.post('/mcp', async (req: Request, res: Response) => {
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`TransitionBridge AI MCP Server running on port ${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/`);
-  console.log(`MCP endpoint: http://localhost:${PORT}/mcp`);
 });
 
 export default app;
