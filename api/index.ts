@@ -77,14 +77,12 @@ app.post('/mcp', async (req: Request, res: Response) => {
           serverInfo: { name: "transitionbridge-ai", version: "1.0.0" },
           capabilities: {
             tools: {},
-            experimental: {
-              "ai.promptopinion/fhir-context": {
-                scopes: [
-                  { name: "patient/Patient.rs", required: false },
-                  { name: "patient/Condition.rs", required: false },
-                  { name: "patient/Immunization.rs", required: false }
-                ]
-              }
+            "ai.promptopinion/fhir-context": {
+              scopes: [
+                { name: "patient/Patient.rs", required: false },
+                { name: "patient/Condition.rs", required: false },
+                { name: "patient/Immunization.rs", required: false }
+              ]
             }
           }
         }
