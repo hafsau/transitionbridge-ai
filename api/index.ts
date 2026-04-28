@@ -157,20 +157,18 @@ app.post('/mcp', async (req: Request, res: Response) => {
           capabilities: {
             tools: {},
             experimental: {
-              fhir_context_required: true
-            }
-          },
-          extensions: {
-            "ai.promptopinion/fhir-context": {
-              version: "1.0",
-              scopes: [
-                { name: "patient/Patient.rs", required: true },
-                { name: "patient/Condition.rs", required: true },
-                { name: "patient/Immunization.rs", required: true },
-                { name: "patient/Observation.rs" },
-                { name: "patient/Practitioner.rs" },
-                { name: "patient/PractitionerRole.rs" }
-              ]
+              "fhir_context_required": true,
+              "ai.promptopinion/fhir-context": {
+                version: "1.0",
+                scopes: [
+                  { name: "patient/Patient.rs", required: true },
+                  { name: "patient/Condition.rs", required: true },
+                  { name: "patient/Immunization.rs", required: true },
+                  { name: "patient/Observation.rs" },
+                  { name: "patient/Practitioner.rs" },
+                  { name: "patient/PractitionerRole.rs" }
+                ]
+              }
             }
           }
         }
