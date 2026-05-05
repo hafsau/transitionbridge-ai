@@ -37,6 +37,83 @@
     },
     {
       "resource": {
+        "resourceType": "Patient",
+        "id": "P004",
+        "identifier": [{"system": "http://transitionbridge.ai/patients", "value": "P004"}],
+        "name": [{"given": ["Ethan"], "family": "Williams"}],
+        "birthDate": "2010-05-08",
+        "gender": "male"
+      },
+      "request": {"method": "PUT", "url": "Patient/P004"}
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "P005",
+        "identifier": [{"system": "http://transitionbridge.ai/patients", "value": "P005"}],
+        "name": [{"given": ["Aisha"], "family": "Patel"}],
+        "birthDate": "2007-09-20",
+        "gender": "female"
+      },
+      "request": {"method": "PUT", "url": "Patient/P005"}
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "P006",
+        "identifier": [{"system": "http://transitionbridge.ai/patients", "value": "P006"}],
+        "name": [{"given": ["Jordan"], "family": "Lee"}],
+        "birthDate": "2012-02-14",
+        "gender": "male"
+      },
+      "request": {"method": "PUT", "url": "Patient/P006"}
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "P007",
+        "identifier": [{"system": "http://transitionbridge.ai/patients", "value": "P007"}],
+        "name": [{"given": ["Isabella"], "family": "Rodriguez"}],
+        "birthDate": "2009-11-30",
+        "gender": "female"
+      },
+      "request": {"method": "PUT", "url": "Patient/P007"}
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "P008",
+        "identifier": [{"system": "http://transitionbridge.ai/patients", "value": "P008"}],
+        "name": [{"given": ["David"], "family": "Kim"}],
+        "birthDate": "2006-04-12",
+        "gender": "male"
+      },
+      "request": {"method": "PUT", "url": "Patient/P008"}
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "P009",
+        "identifier": [{"system": "http://transitionbridge.ai/patients", "value": "P009"}],
+        "name": [{"given": ["Olivia"], "family": "Thompson"}],
+        "birthDate": "2013-08-05",
+        "gender": "female"
+      },
+      "request": {"method": "PUT", "url": "Patient/P009"}
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "P010",
+        "identifier": [{"system": "http://transitionbridge.ai/patients", "value": "P010"}],
+        "name": [{"given": ["Noah"], "family": "Brown"}],
+        "birthDate": "2010-12-25",
+        "gender": "male"
+      },
+      "request": {"method": "PUT", "url": "Patient/P010"}
+    },
+    {
+      "resource": {
         "resourceType": "Condition",
         "id": "C001",
         "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]},
@@ -70,58 +147,80 @@
     },
     {
       "resource": {
-        "resourceType": "Immunization",
-        "id": "I001",
-        "status": "completed",
-        "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "115", "display": "Tdap"}], "text": "Tdap"},
-        "patient": {"reference": "Patient/P001"},
-        "occurrenceDateTime": "2020-03-15"
+        "resourceType": "Condition",
+        "id": "C004",
+        "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]},
+        "code": {"coding": [{"system": "http://snomed.info/sct", "code": "417357006", "display": "Sickle cell disease"}], "text": "Sickle Cell Disease"},
+        "subject": {"reference": "Patient/P004"},
+        "onsetDateTime": "2010-05-08"
       },
-      "request": {"method": "PUT", "url": "Immunization/I001"}
+      "request": {"method": "PUT", "url": "Condition/C004"}
     },
     {
       "resource": {
-        "resourceType": "Immunization",
-        "id": "I002",
-        "status": "completed",
-        "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "165", "display": "HPV9"}], "text": "HPV"},
-        "patient": {"reference": "Patient/P001"},
-        "occurrenceDateTime": "2021-03-15"
+        "resourceType": "Condition",
+        "id": "C005",
+        "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]},
+        "code": {"coding": [{"system": "http://snomed.info/sct", "code": "84757009", "display": "Epilepsy"}], "text": "Epilepsy"},
+        "subject": {"reference": "Patient/P005"},
+        "onsetDateTime": "2015-03-10"
       },
-      "request": {"method": "PUT", "url": "Immunization/I002"}
+      "request": {"method": "PUT", "url": "Condition/C005"}
     },
     {
       "resource": {
-        "resourceType": "Immunization",
-        "id": "I003",
-        "status": "completed",
-        "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "141", "display": "Influenza"}], "text": "Flu"},
-        "patient": {"reference": "Patient/P002"},
-        "occurrenceDateTime": "2025-10-01"
+        "resourceType": "Condition",
+        "id": "C006",
+        "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]},
+        "code": {"coding": [{"system": "http://snomed.info/sct", "code": "410795001", "display": "Juvenile idiopathic arthritis"}], "text": "Juvenile Idiopathic Arthritis"},
+        "subject": {"reference": "Patient/P006"},
+        "onsetDateTime": "2018-06-15"
       },
-      "request": {"method": "PUT", "url": "Immunization/I003"}
+      "request": {"method": "PUT", "url": "Condition/C006"}
     },
     {
       "resource": {
-        "resourceType": "Immunization",
-        "id": "I004",
-        "status": "completed",
-        "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "133", "display": "Pneumococcal"}], "text": "Pneumococcal"},
-        "patient": {"reference": "Patient/P003"},
-        "occurrenceDateTime": "2024-01-10"
+        "resourceType": "Condition",
+        "id": "C007",
+        "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]},
+        "code": {"coding": [{"system": "http://snomed.info/sct", "code": "195967001", "display": "Asthma"}], "text": "Severe Persistent Asthma"},
+        "subject": {"reference": "Patient/P007"},
+        "onsetDateTime": "2014-09-01"
       },
-      "request": {"method": "PUT", "url": "Immunization/I004"}
+      "request": {"method": "PUT", "url": "Condition/C007"}
     },
     {
       "resource": {
-        "resourceType": "Immunization",
-        "id": "I005",
-        "status": "completed",
-        "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "141", "display": "Influenza"}], "text": "Flu"},
-        "patient": {"reference": "Patient/P003"},
-        "occurrenceDateTime": "2025-10-15"
+        "resourceType": "Condition",
+        "id": "C008",
+        "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]},
+        "code": {"coding": [{"system": "http://snomed.info/sct", "code": "34000006", "display": "Crohn's disease"}], "text": "Crohn's Disease"},
+        "subject": {"reference": "Patient/P008"},
+        "onsetDateTime": "2018-11-20"
       },
-      "request": {"method": "PUT", "url": "Immunization/I005"}
+      "request": {"method": "PUT", "url": "Condition/C008"}
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "C009",
+        "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]},
+        "code": {"coding": [{"system": "http://snomed.info/sct", "code": "406506008", "display": "ADHD"}], "text": "ADHD with Anxiety Disorder"},
+        "subject": {"reference": "Patient/P009"},
+        "onsetDateTime": "2020-01-15"
+      },
+      "request": {"method": "PUT", "url": "Condition/C009"}
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "C010",
+        "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]},
+        "code": {"coding": [{"system": "http://snomed.info/sct", "code": "73297009", "display": "Muscular dystrophy"}], "text": "Duchenne Muscular Dystrophy"},
+        "subject": {"reference": "Patient/P010"},
+        "onsetDateTime": "2014-06-01"
+      },
+      "request": {"method": "PUT", "url": "Condition/C010"}
     },
     {
       "resource": {
@@ -164,6 +263,97 @@
     },
     {
       "resource": {
+        "resourceType": "Observation",
+        "id": "OBS004",
+        "status": "final",
+        "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "survey"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "89571-4", "display": "Transition readiness assessment"}], "text": "TRAQ Assessment"},
+        "subject": {"reference": "Patient/P004"},
+        "effectiveDateTime": "2026-04-01",
+        "valueQuantity": {"value": 55, "unit": "%"}
+      },
+      "request": {"method": "PUT", "url": "Observation/OBS004"}
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "OBS005",
+        "status": "final",
+        "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "survey"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "89571-4", "display": "Transition readiness assessment"}], "text": "TRAQ Assessment"},
+        "subject": {"reference": "Patient/P005"},
+        "effectiveDateTime": "2026-04-01",
+        "valueQuantity": {"value": 82, "unit": "%"}
+      },
+      "request": {"method": "PUT", "url": "Observation/OBS005"}
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "OBS006",
+        "status": "final",
+        "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "survey"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "89571-4", "display": "Transition readiness assessment"}], "text": "TRAQ Assessment"},
+        "subject": {"reference": "Patient/P006"},
+        "effectiveDateTime": "2026-04-01",
+        "valueQuantity": {"value": 35, "unit": "%"}
+      },
+      "request": {"method": "PUT", "url": "Observation/OBS006"}
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "OBS007",
+        "status": "final",
+        "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "survey"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "89571-4", "display": "Transition readiness assessment"}], "text": "TRAQ Assessment"},
+        "subject": {"reference": "Patient/P007"},
+        "effectiveDateTime": "2026-04-01",
+        "valueQuantity": {"value": 70, "unit": "%"}
+      },
+      "request": {"method": "PUT", "url": "Observation/OBS007"}
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "OBS008",
+        "status": "final",
+        "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "survey"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "89571-4", "display": "Transition readiness assessment"}], "text": "TRAQ Assessment"},
+        "subject": {"reference": "Patient/P008"},
+        "effectiveDateTime": "2026-04-01",
+        "valueQuantity": {"value": 40, "unit": "%"}
+      },
+      "request": {"method": "PUT", "url": "Observation/OBS008"}
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "OBS009",
+        "status": "final",
+        "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "survey"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "89571-4", "display": "Transition readiness assessment"}], "text": "TRAQ Assessment"},
+        "subject": {"reference": "Patient/P009"},
+        "effectiveDateTime": "2026-04-01",
+        "valueQuantity": {"value": 25, "unit": "%"}
+      },
+      "request": {"method": "PUT", "url": "Observation/OBS009"}
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "OBS010",
+        "status": "final",
+        "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "survey"}]}],
+        "code": {"coding": [{"system": "http://loinc.org", "code": "89571-4", "display": "Transition readiness assessment"}], "text": "TRAQ Assessment"},
+        "subject": {"reference": "Patient/P010"},
+        "effectiveDateTime": "2026-04-01",
+        "valueQuantity": {"value": 50, "unit": "%"}
+      },
+      "request": {"method": "PUT", "url": "Observation/OBS010"}
+    },
+    {
+      "resource": {
         "resourceType": "Practitioner",
         "id": "PROV001",
         "identifier": [{"system": "http://transitionbridge.ai/providers", "value": "PROV-001"}],
@@ -191,6 +381,24 @@
     },
     {
       "resource": {
+        "resourceType": "Practitioner",
+        "id": "PROV004",
+        "identifier": [{"system": "http://transitionbridge.ai/providers", "value": "PROV-004"}],
+        "name": [{"text": "Dr. Michael Rivera"}]
+      },
+      "request": {"method": "PUT", "url": "Practitioner/PROV004"}
+    },
+    {
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "PROV005",
+        "identifier": [{"system": "http://transitionbridge.ai/providers", "value": "PROV-005"}],
+        "name": [{"text": "Dr. Lisa Wang"}]
+      },
+      "request": {"method": "PUT", "url": "Practitioner/PROV005"}
+    },
+    {
+      "resource": {
         "resourceType": "PractitionerRole",
         "id": "PR001",
         "practitioner": {"reference": "Practitioner/PROV001", "display": "Dr. Sarah Mitchell"},
@@ -215,6 +423,24 @@
         "specialty": [{"coding": [{"system": "http://snomed.info/sct", "code": "418112009", "display": "Pulmonology"}], "text": "Pulmonology - CF Center"}]
       },
       "request": {"method": "PUT", "url": "PractitionerRole/PR003"}
+    },
+    {
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "PR004",
+        "practitioner": {"reference": "Practitioner/PROV004", "display": "Dr. Michael Rivera"},
+        "specialty": [{"coding": [{"system": "http://snomed.info/sct", "code": "394584008", "display": "Gastroenterology"}], "text": "Gastroenterology - IBD Specialist"}]
+      },
+      "request": {"method": "PUT", "url": "PractitionerRole/PR004"}
+    },
+    {
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "PR005",
+        "practitioner": {"reference": "Practitioner/PROV005", "display": "Dr. Lisa Wang"},
+        "specialty": [{"coding": [{"system": "http://snomed.info/sct", "code": "394591006", "display": "Neurology"}], "text": "Neurology - Epilepsy Center"}]
+      },
+      "request": {"method": "PUT", "url": "PractitionerRole/PR005"}
     },
     {
       "resource": {
@@ -254,36 +480,6 @@
         "description": "URGENT: Expedited transition plan for Cystic Fibrosis - patient has aged out"
       },
       "request": {"method": "PUT", "url": "CarePlan/CP003"}
-    },
-    {
-      "resource": {
-        "resourceType": "Appointment",
-        "id": "APT001",
-        "status": "booked",
-        "description": "Warm handoff meeting - Pediatric to Adult Endocrinology",
-        "start": "2026-05-15T10:00:00Z",
-        "end": "2026-05-15T11:00:00Z",
-        "participant": [
-          {"actor": {"reference": "Patient/P001"}, "status": "accepted"},
-          {"actor": {"reference": "Practitioner/PROV001"}, "status": "accepted"}
-        ]
-      },
-      "request": {"method": "PUT", "url": "Appointment/APT001"}
-    },
-    {
-      "resource": {
-        "resourceType": "Appointment",
-        "id": "APT002",
-        "status": "booked",
-        "description": "Adult CF Center Initial Consultation - URGENT",
-        "start": "2026-05-01T09:00:00Z",
-        "end": "2026-05-01T10:30:00Z",
-        "participant": [
-          {"actor": {"reference": "Patient/P003"}, "status": "accepted"},
-          {"actor": {"reference": "Practitioner/PROV003"}, "status": "accepted"}
-        ]
-      },
-      "request": {"method": "PUT", "url": "Appointment/APT002"}
     }
   ]
 }

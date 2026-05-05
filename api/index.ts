@@ -60,6 +60,55 @@ const SYNTHETIC_PATIENTS: Record<string, any> = {
     immunizations: [{ resourceType: "Immunization", vaccineCode: { text: "Pneumococcal" }, status: "completed" }, { resourceType: "Immunization", vaccineCode: { text: "Flu" }, status: "completed" }],
     readinessAssessment: { overallScore: 0.78, domainScores: { "managing-medications": 0.85, "appointment-keeping": 0.75, "tracking-health-issues": 0.8, "talking-with-providers": 0.7, "managing-daily-activities": 0.8 }, gaps: ["talking-with-providers"], recommendations: ["URGENT: Patient has aged out - expedite transition", "Connect with adult CF center immediately"] },
     careGaps: [{ id: "G005", category: "specialist_referral", description: "Adult CF center transfer urgent", urgency: "urgent", actionRequired: "Immediate referral to adult CF program" }, { id: "G006", category: "care_summary", description: "Complete care summary for transfer", urgency: "urgent", actionRequired: "Prepare comprehensive CF history" }]
+  },
+  "P004": {
+    patient: { resourceType: "Patient", id: "P004", name: [{ given: ["Ethan"], family: "Williams" }], birthDate: "2010-05-08", gender: "male" },
+    conditions: [{ resourceType: "Condition", code: { text: "Sickle Cell Disease" }, clinicalStatus: { coding: [{ code: "active" }] } }],
+    immunizations: [{ resourceType: "Immunization", vaccineCode: { text: "Pneumococcal" }, status: "completed" }, { resourceType: "Immunization", vaccineCode: { text: "Meningococcal" }, status: "completed" }],
+    readinessAssessment: { overallScore: 0.55, domainScores: { "managing-medications": 0.6, "appointment-keeping": 0.5, "tracking-health-issues": 0.55, "talking-with-providers": 0.5, "managing-daily-activities": 0.6 }, gaps: ["appointment-keeping", "talking-with-providers"], recommendations: ["Pain crisis management education", "Learn to advocate for pain treatment in ER"] },
+    careGaps: [{ id: "G007", category: "specialist_referral", description: "Adult hematology referral needed", urgency: "medium", actionRequired: "Identify adult sickle cell specialist" }, { id: "G008", category: "documentation", description: "Pain management protocol needed", urgency: "high", actionRequired: "Document individualized pain protocol" }]
+  },
+  "P005": {
+    patient: { resourceType: "Patient", id: "P005", name: [{ given: ["Aisha"], family: "Patel" }], birthDate: "2007-09-20", gender: "female" },
+    conditions: [{ resourceType: "Condition", code: { text: "Epilepsy" }, clinicalStatus: { coding: [{ code: "active" }] } }],
+    immunizations: [{ resourceType: "Immunization", vaccineCode: { text: "Tdap" }, status: "completed" }, { resourceType: "Immunization", vaccineCode: { text: "HPV" }, status: "completed" }],
+    readinessAssessment: { overallScore: 0.82, domainScores: { "managing-medications": 0.9, "appointment-keeping": 0.8, "tracking-health-issues": 0.85, "talking-with-providers": 0.75, "managing-daily-activities": 0.8 }, gaps: [], recommendations: ["AGED OUT: Transfer to adult neurology", "Driving evaluation needed", "Pregnancy counseling if applicable"] },
+    careGaps: [{ id: "G009", category: "specialist_referral", description: "Adult neurology transfer overdue", urgency: "urgent", actionRequired: "Immediate referral to adult epilepsy center" }, { id: "G010", category: "lifestyle", description: "Driving safety evaluation needed", urgency: "high", actionRequired: "Schedule driving fitness assessment" }]
+  },
+  "P006": {
+    patient: { resourceType: "Patient", id: "P006", name: [{ given: ["Jordan"], family: "Lee" }], birthDate: "2012-02-14", gender: "male" },
+    conditions: [{ resourceType: "Condition", code: { text: "Juvenile Idiopathic Arthritis" }, clinicalStatus: { coding: [{ code: "active" }] } }],
+    immunizations: [{ resourceType: "Immunization", vaccineCode: { text: "Flu" }, status: "completed" }],
+    readinessAssessment: { overallScore: 0.35, domainScores: { "managing-medications": 0.3, "appointment-keeping": 0.4, "tracking-health-issues": 0.35, "talking-with-providers": 0.3, "managing-daily-activities": 0.4 }, gaps: ["managing-medications", "talking-with-providers", "tracking-health-issues"], recommendations: ["Begin early transition education", "Introduce biologic medication self-management", "Start health journal practice"] },
+    careGaps: [{ id: "G011", category: "education", description: "Disease self-management education needed", urgency: "medium", actionRequired: "Schedule JIA education sessions" }]
+  },
+  "P007": {
+    patient: { resourceType: "Patient", id: "P007", name: [{ given: ["Isabella"], family: "Rodriguez" }], birthDate: "2009-11-30", gender: "female" },
+    conditions: [{ resourceType: "Condition", code: { text: "Severe Persistent Asthma" }, clinicalStatus: { coding: [{ code: "active" }] } }],
+    immunizations: [{ resourceType: "Immunization", vaccineCode: { text: "Flu" }, status: "completed" }, { resourceType: "Immunization", vaccineCode: { text: "Pneumococcal" }, status: "completed" }],
+    readinessAssessment: { overallScore: 0.70, domainScores: { "managing-medications": 0.75, "appointment-keeping": 0.7, "tracking-health-issues": 0.7, "talking-with-providers": 0.65, "managing-daily-activities": 0.7 }, gaps: ["talking-with-providers"], recommendations: ["Asthma action plan self-management", "Peak flow monitoring independence", "Biologic therapy education if applicable"] },
+    careGaps: [{ id: "G012", category: "documentation", description: "Updated asthma action plan needed", urgency: "medium", actionRequired: "Create adult asthma action plan" }]
+  },
+  "P008": {
+    patient: { resourceType: "Patient", id: "P008", name: [{ given: ["David"], family: "Kim" }], birthDate: "2006-04-12", gender: "male" },
+    conditions: [{ resourceType: "Condition", code: { text: "Crohn's Disease" }, clinicalStatus: { coding: [{ code: "active" }] } }],
+    immunizations: [{ resourceType: "Immunization", vaccineCode: { text: "Hepatitis B" }, status: "completed" }],
+    readinessAssessment: { overallScore: 0.40, domainScores: { "managing-medications": 0.35, "appointment-keeping": 0.45, "tracking-health-issues": 0.4, "talking-with-providers": 0.35, "managing-daily-activities": 0.45 }, gaps: ["managing-medications", "talking-with-providers", "tracking-health-issues"], recommendations: ["AGED OUT: Urgent adult GI transfer", "Biologic infusion self-scheduling", "Flare recognition training"] },
+    careGaps: [{ id: "G013", category: "specialist_referral", description: "Adult gastroenterology transfer overdue", urgency: "urgent", actionRequired: "Immediate referral to adult IBD center" }, { id: "G014", category: "immunization", description: "Immunization review needed for biologics", urgency: "high", actionRequired: "Update immunizations per biologic protocol" }]
+  },
+  "P009": {
+    patient: { resourceType: "Patient", id: "P009", name: [{ given: ["Olivia"], family: "Thompson" }], birthDate: "2013-08-05", gender: "female" },
+    conditions: [{ resourceType: "Condition", code: { text: "ADHD with Anxiety Disorder" }, clinicalStatus: { coding: [{ code: "active" }] } }],
+    immunizations: [{ resourceType: "Immunization", vaccineCode: { text: "Tdap" }, status: "completed" }],
+    readinessAssessment: { overallScore: 0.25, domainScores: { "managing-medications": 0.2, "appointment-keeping": 0.3, "tracking-health-issues": 0.25, "talking-with-providers": 0.2, "managing-daily-activities": 0.3 }, gaps: ["managing-medications", "talking-with-providers", "tracking-health-issues", "appointment-keeping"], recommendations: ["Very early in transition - focus on basics", "Medication reminder system setup", "Begin discussing mental health independently"] },
+    careGaps: [{ id: "G015", category: "education", description: "Mental health self-advocacy training", urgency: "low", actionRequired: "Age-appropriate mental health education" }]
+  },
+  "P010": {
+    patient: { resourceType: "Patient", id: "P010", name: [{ given: ["Noah"], family: "Brown" }], birthDate: "2010-12-25", gender: "male" },
+    conditions: [{ resourceType: "Condition", code: { text: "Duchenne Muscular Dystrophy" }, clinicalStatus: { coding: [{ code: "active" }] } }],
+    immunizations: [{ resourceType: "Immunization", vaccineCode: { text: "Flu" }, status: "completed" }, { resourceType: "Immunization", vaccineCode: { text: "Pneumococcal" }, status: "completed" }],
+    readinessAssessment: { overallScore: 0.50, domainScores: { "managing-medications": 0.55, "appointment-keeping": 0.5, "tracking-health-issues": 0.5, "talking-with-providers": 0.45, "managing-daily-activities": 0.5 }, gaps: ["talking-with-providers", "tracking-health-issues"], recommendations: ["Coordinate with adult neuromuscular clinic", "Cardiac monitoring transition", "Respiratory care transition planning"] },
+    careGaps: [{ id: "G016", category: "specialist_referral", description: "Adult neuromuscular specialist needed", urgency: "high", actionRequired: "Identify adult DMD-experienced provider" }, { id: "G017", category: "care_coordination", description: "Multi-specialty transition coordination", urgency: "high", actionRequired: "Coordinate cardiology, pulmonology, neurology transition" }]
   }
 };
 
